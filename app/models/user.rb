@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :avatar_url, :email, :name, :password, :password_confirmation, :username
+  # attr_accessor :avatar_url, :email, :name, :password, :password_confirmation, :username
   has_secure_password
   before_validation :prep_email
   before_save :create_avatar_url
@@ -9,6 +9,10 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, presence: true, format: { with: /\A[\w.+-]+@([\w]+.)+\w+\z/ }
 
   private
+
+  # def allowed_params
+  # params.require(:user).permit(:avatar_url, :email, :name, :password, :password_confirmation, :username)
+  # end
 
   def prep_email
       self.email = self.email.strip.downcase if self.email
