@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   def new
-    @user = User.new
+    if current_user
+        redirect_to buddies_path
+    else
+        @user = User.new
+    end
   end
 
   def allowed_params
@@ -29,5 +33,15 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+  end
+
+  def buddies
+    if current_user
+        @ribbit = Ribbit.new
+        buddies_ids = current_user.followeds.map(&:id).push(current_user.id)
+        @ribbits = Ribbit.where(user_id: buddies_ids)
+    else
+        redirect_to root_url
+    end
   end
 end
